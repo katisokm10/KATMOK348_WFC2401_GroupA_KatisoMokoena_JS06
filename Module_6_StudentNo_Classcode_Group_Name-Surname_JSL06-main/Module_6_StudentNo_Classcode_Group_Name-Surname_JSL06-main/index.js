@@ -6,47 +6,32 @@ const menu = {
     Desserts: ["Tiramisu", "Cheesecake"]
 };
 
+
 // Function to display menu items by category
 function displayMenuItems(menu) {
     // Get the menu container element from the HTML
     const menuContainer = document.getElementById("menu");
+    let menuHTML = '';
 
-   // Loop through each category and its items in the menu object
-   for (const [category, items] of Object.entries(menu)) {
-    
-        // Create an h2 element for the category name
-        const categoryHeading = document.createElement("h2");
-        categoryHeading.textContent = category;
-
-        // Append the h2 element to the menu container
-        menuContainer.appendChild(categoryHeading);
-
-        // Insert a line break element to add space between the h2 element and the list of items
-        menuContainer.appendChild(document.createElement("br"));
-
-        // Create an element to represent a list of items
-        const itemListElement = document.createElement("ul");
-
-        // Append a list of items element to the menu container
-        menuContainer.appendChild(itemListElement);
-
-        // Loop through the items in the category and create list items
+    // Loop through each category and its items in the menu object
+    for (const [category, items] of Object.entries(menu)) {
+        // Create HTML for category heading and items
+        menuHTML += `<h2>${category}</h2><ul>`;
         items.forEach(item => {
-            // Create a list item element
-            const listItemElement = document.createElement("li");
-
-            // Set the text content of the list item element to the item name
-            listItemElement.textContent = item;
-
-            // Attach a click event listener to the list item to add it to the order
-            listItemElement.addEventListener("click", () => {
-                addToOrder(item);
-            });
-
-            // Append the list item to the list of items
-            itemListElement.appendChild(listItemElement);
+            menuHTML += `<li>${item}</li>`;
         });
+        menuHTML += `</ul>`;
     }
+
+    // Set the menu container's HTML with the generated content
+    menuContainer.innerHTML = menuHTML;
+
+    // Add click event listeners to all list items to add them to the order
+    menuContainer.querySelectorAll('li').forEach(item => {
+        item.addEventListener("click", () => {
+            addToOrder(item.textContent);
+        });
+    });
 }
 
 // Callback function for adding an item to the order
@@ -86,5 +71,4 @@ function initMenuSystem(menu) {
 
 // Start the menu system by calling the init function
 initMenuSystem(menu);
-
 
